@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>azely.utils &#8212; Azely 0.6.0 documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <a class="navbar-brand" href="../../index.html">
+      <img src="../../_static/logo.svg" class="logo" alt="logo">
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../_apidoc/azely.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/astropenguin/azely/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/astropengu_in/" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for azely.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Azely&#39;s utils module (low-level utilities).</span>
+
+<span class="sd">This module provides series of utility related to exception and I/O:</span>
+<span class="sd">(1) ``AzelyError`` class as Azely&#39;s base exception class</span>
+<span class="sd">(2) ``open_toml`` function to open (and update if any) a TOML file</span>
+<span class="sd">(3) ``cache_to`` decorator which caches returns of a function to a TOML file</span>
+<span class="sd">(4) ``set_defaults`` decorator which replaces default values of a function</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AzelyError&quot;</span><span class="p">,</span> <span class="s2">&quot;open_toml&quot;</span><span class="p">,</span> <span class="s2">&quot;cache_to&quot;</span><span class="p">,</span> <span class="s2">&quot;set_defaults&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># standard library</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Signature</span><span class="p">,</span> <span class="n">signature</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+
+
+<span class="c1"># dependent packages</span>
+<span class="kn">from</span> <span class="nn">requests.utils</span> <span class="kn">import</span> <span class="n">CaseInsensitiveDict</span>
+<span class="kn">from</span> <span class="nn">toml</span> <span class="kn">import</span> <span class="n">TomlDecodeError</span><span class="p">,</span> <span class="n">dump</span><span class="p">,</span> <span class="n">load</span>
+
+
+<span class="c1"># constants</span>
+<span class="n">TOML_SUFFIX</span> <span class="o">=</span> <span class="s2">&quot;.toml&quot;</span>
+<span class="n">QUERY_PATTERN</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^\s*([\w\s]*\w)\s*!$&quot;</span>
+
+
+<span class="c1"># type aliases</span>
+<span class="n">PathLike</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="n">StrKeyDict</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+
+
+<span class="c1"># main classes/functions</span>
+<div class="viewcode-block" id="AzelyError"><a class="viewcode-back" href="../../_apidoc/azely.utils.html#azely.utils.AzelyError">[docs]</a><span class="k">class</span> <span class="nc">AzelyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Azely&#39;s base exception class.&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="open_toml"><a class="viewcode-back" href="../../_apidoc/azely.utils.html#azely.utils.open_toml">[docs]</a><span class="k">def</span> <span class="nf">open_toml</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span> <span class="n">alt_dir</span><span class="p">:</span> <span class="n">PathLike</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Open a TOML file and get contents as a dictionary.</span>
+
+<span class="sd">    If this function is used in a ``with`` context management,</span>
+<span class="sd">    any updates to the dictionary is also reflected on the TOML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path: Path or filename (without suffix) of a TOML file.</span>
+<span class="sd">            If the latter is specified and if it does not exist in a current</span>
+<span class="sd">            directory, then the function tries to find it in ``alt_dir``.</span>
+<span class="sd">        alt_dir: Path of a directory where the function tries to find</span>
+<span class="sd">            the TOML file if it does not exist in a current directory.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary equivalent to the contents of the TOML file.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AzelyError: Raised if the TOML file is not found anywhere.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        To simply open a TOML file (for example, ``./user.toml``)::</span>
+
+<span class="sd">            &gt;&gt;&gt; dic = azely.utils.open_toml(&#39;user.toml&#39;)</span>
+
+<span class="sd">        or::</span>
+
+<span class="sd">            &gt;&gt;&gt; dic = azely.utils.open_toml(&#39;user&#39;)</span>
+
+<span class="sd">        To open and update a TOML file::</span>
+
+<span class="sd">            &gt;&gt;&gt; with azely.utils.open_toml(&#39;user.toml&#39;) as dic:</span>
+<span class="sd">            ...     dic[&#39;new_key&#39;] = new_value</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="n">TOML_SUFFIX</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">alt_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">path</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">AzelyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to find path: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">TOMLDict</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cache_to"><a class="viewcode-back" href="../../_apidoc/azely.utils.html#azely.utils.cache_to">[docs]</a><span class="k">class</span> <span class="nc">cache_to</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Decorator which cache returns of a function to a TOML file.</span>
+
+<span class="sd">    Suppose there is a function which takes a long time to get</span>
+<span class="sd">    a result and it is decorated by this function::</span>
+
+<span class="sd">        &gt;&gt;&gt; import time</span>
+<span class="sd">        &gt;&gt;&gt; @azely.utils.cache_to(&#39;cache.toml&#39;)</span>
+<span class="sd">        ... def func(query: str) -&gt; str:</span>
+<span class="sd">        ...     # simulates a long-time processing</span>
+<span class="sd">        ...     time.sleep(10)</span>
+<span class="sd">        ...     return query</span>
+
+<span class="sd">    Then the following function calls::</span>
+
+<span class="sd">        &gt;&gt;&gt; func(&#39;aaa&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; func(&#39;bbb&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; func(&#39;ccc&#39;)</span>
+
+<span class="sd">    would take ~30 seconds to finish. But at the same time,</span>
+<span class="sd">    the results are cached to ``cache.toml`` like::</span>
+
+<span class="sd">        # cache.toml</span>
+
+<span class="sd">        aaa = &quot;aaa&quot;</span>
+<span class="sd">        bbb = &quot;bbb&quot;</span>
+<span class="sd">        ccc = &quot;ccc&quot;</span>
+
+<span class="sd">    Then the second calls would take much shorter time because</span>
+<span class="sd">    cached values are simply read and returned by the decorator.</span>
+<span class="sd">    If a query argument is given with &#39;!&#39; at the end of it</span>
+<span class="sd">    (e.g., ``&#39;aaa!&#39;``), cached values are forcibly updated by an</span>
+<span class="sd">    immediate call of the original function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">QUERY_PATTERN</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;query&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">ensure_existence</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">bound</span><span class="o">.</span><span class="n">apply_defaults</span><span class="p">()</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">bound</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">]</span>
+            <span class="n">need_update</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">need_update</span><span class="p">:</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">need_update</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">bound</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">]</span> <span class="o">=</span> <span class="n">query</span>
+
+            <span class="k">with</span> <span class="n">TOMLDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">cache</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">query</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cache</span> <span class="ow">or</span> <span class="n">need_update</span><span class="p">:</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">bound</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">bound</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="n">cache</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">query</span><span class="p">:</span> <span class="n">item</span><span class="p">})</span>
+
+                <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="n">query</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="set_defaults"><a class="viewcode-back" href="../../_apidoc/azely.utils.html#azely.utils.set_defaults">[docs]</a><span class="k">class</span> <span class="nc">set_defaults</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Decorator which replaces default values of a function.</span>
+
+<span class="sd">    The alternative defualt values are read from a TOML file.</span>
+<span class="sd">    Suppose there is a function with some parameters</span>
+<span class="sd">    and it is decorated by this function::</span>
+
+<span class="sd">        &gt;&gt;&gt; @azely.utils.set_defaults(&#39;defaults.toml&#39;)</span>
+<span class="sd">        ... def func(a: int, b: int = 0) -&gt; int:</span>
+<span class="sd">        ...     return a + b</span>
+
+<span class="sd">    Suppose the content of ``defaults.toml`` is like::</span>
+
+<span class="sd">        # defaults.toml</span>
+
+<span class="sd">        a = 1</span>
+<span class="sd">        b = 2</span>
+
+<span class="sd">    Then the following function calls results in::</span>
+
+<span class="sd">        &gt;&gt;&gt; func(0, 1) # -&gt; 1</span>
+<span class="sd">        &gt;&gt;&gt; func(0) # -&gt; 2</span>
+<span class="sd">        &gt;&gt;&gt; func() # -&gt; 3</span>
+
+<span class="sd">    This is because now the function is equivalent to::</span>
+
+<span class="sd">        &gt;&gt;&gt; def func(a: int = 1, b: int = 2) -&gt; int:</span>
+<span class="sd">        ...     return a + b</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">ensure_existence</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">defaults</span> <span class="o">=</span> <span class="n">TOMLDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
+                <span class="n">defaults</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span>
+
+            <span class="n">updated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">defaults</span><span class="p">)</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="n">updated</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">bound</span><span class="o">.</span><span class="n">apply_defaults</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">bound</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">bound</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+<div class="viewcode-block" id="set_defaults.update"><a class="viewcode-back" href="../../_apidoc/azely.utils.html#azely.utils.set_defaults.update">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">sig</span><span class="p">:</span> <span class="n">Signature</span><span class="p">,</span> <span class="n">defaults</span><span class="p">:</span> <span class="n">StrKeyDict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Signature</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">default</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">))</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">replace</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">sig</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># helper classes/functions</span>
+<span class="k">def</span> <span class="nf">ensure_existence</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Make path of file exist.&quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">touch</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<span class="k">class</span> <span class="nc">TOMLDict</span><span class="p">(</span><span class="n">CaseInsensitiveDict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Open and update a TOML file as a dictionary.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_toml</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StrKeyDict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load_toml</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StrKeyDict</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">TomlDecodeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">AzelyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to load: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update_toml</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span> <span class="n">f</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">PermissionError</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">AzelyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to update: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_toml</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    <script src="../../_static/js/index.js"></script>
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2017-2020, Akio Taniguchi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

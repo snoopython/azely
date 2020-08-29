@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>azely.azel &#8212; Azely 0.6.0 documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <a class="navbar-brand" href="../../index.html">
+      <img src="../../_static/logo.svg" class="logo" alt="logo">
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../_apidoc/azely.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/astropenguin/azely/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/astropengu_in/" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for azely.azel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Azely&#39;s azel module (high-level API).</span>
+
+<span class="sd">This module mainly provides ``compute`` function as a high-level API for users</span>
+<span class="sd">which computes azimuth/elevation of an astronomical object under given conditions.</span>
+
+<span class="sd">The ``compute`` function (1) gets object, location, and time information, (2) computes</span>
+<span class="sd">az/el and LST (local sidereal time), and (3) returns them as a pandas DataFrame.</span>
+
+<span class="sd">Object information can be obtained either online (CDS) or offline (an user-defined</span>
+<span class="sd">TOML file) by query (e.g., ``&#39;NGC1068&#39;`` or ``&#39;Sun&#39;``). Location information can be</span>
+<span class="sd">obtained either online (IP address or OpenStreetMap) or offline (an user-defined</span>
+<span class="sd">TOML file) by query (e.g., ``&#39;Tokyo&#39;`` or ``&#39;ALMA AOS&#39;``). Time information can be</span>
+<span class="sd">computed from either formatted (e.g., ``&#39;2020-01-01&#39;``) and natural language-like</span>
+<span class="sd">query (e.g., ``&#39;Jan 1st 2020&#39;``). See docstrings of ``get_[object|location|time]``</span>
+<span class="sd">functions for more detailed query options.</span>
+
+<span class="sd">There are two different locations to be used for a computation:</span>
+<span class="sd">(1) ``site``: location where az/el of an object is computed.</span>
+<span class="sd">(2) ``view``: location where time information (timezone) is considered.</span>
+
+<span class="sd">Examples:</span>
+<span class="sd">    To compute daily az/el of NGC1068 at ALMA AOS::</span>
+
+<span class="sd">        &gt;&gt;&gt; df = azely.compute(&#39;NGC1068&#39;, &#39;ALMA AOS&#39;, &#39;2020-02-01&#39;)</span>
+
+<span class="sd">    To compute the same object and location but view from Japan::</span>
+
+<span class="sd">        &gt;&gt;&gt; df = azely.compute(&#39;NGC1068&#39;, &#39;ALMA AOS&#39;, &#39;2020-02-01&#39;, view=&#39;Tokyo&#39;)</span>
+
+<span class="sd">    To compute az/el of Sun at noon during an year at Tokyo::</span>
+
+<span class="sd">        &gt;&gt;&gt; df = azely.compute(&#39;Sun&#39;, &#39;Tokyo&#39;, &#39;1/1 12:00 to 12/31 12:00&#39;, freq=&#39;1D&#39;)</span>
+
+<span class="sd">As DataFrame has ``plot`` method for matplotlib, plotting the result is so easy::</span>
+
+<span class="sd">    &gt;&gt;&gt; df.el.plot() # plot elevation</span>
+
+<span class="sd">If users want to use LST instead of time information, use ``in_lst`` property::</span>
+
+<span class="sd">    &gt;&gt;&gt; df.in_lst.el.plot()</span>
+
+<span class="sd">In order to use LST values as an index of DataFrame, LST has pseudo dates which</span>
+<span class="sd">start from ``1970-01-01``. Please ignore them or hide them by using matplotlib&#39;s</span>
+<span class="sd">DateFormatter when you plot the result.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AzEl&quot;</span><span class="p">,</span> <span class="s2">&quot;compute&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># dependent packages</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">DatetimeIndex</span><span class="p">,</span> <span class="n">Timestamp</span><span class="p">,</span> <span class="n">to_timedelta</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">set_defaults</span>
+<span class="kn">from</span> <span class="nn">.location</span> <span class="kn">import</span> <span class="n">Location</span><span class="p">,</span> <span class="n">get_location</span>
+<span class="kn">from</span> <span class="nn">.object</span> <span class="kn">import</span> <span class="n">Object</span><span class="p">,</span> <span class="n">get_object</span>
+<span class="kn">from</span> <span class="nn">.time</span> <span class="kn">import</span> <span class="n">Time</span><span class="p">,</span> <span class="n">get_time</span>
+
+
+<span class="c1"># constants</span>
+<span class="kn">from</span> <span class="nn">.consts</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AZELY_CONFIG</span><span class="p">,</span>
+    <span class="n">DAYFIRST</span><span class="p">,</span>
+    <span class="n">HERE</span><span class="p">,</span>
+    <span class="n">FRAME</span><span class="p">,</span>
+    <span class="n">FREQ</span><span class="p">,</span>
+    <span class="n">TIMEOUT</span><span class="p">,</span>
+    <span class="n">TODAY</span><span class="p">,</span>
+    <span class="n">YEARFIRST</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">SOLAR_TO_SIDEREAL</span> <span class="o">=</span> <span class="mf">1.002_737_909</span>
+
+
+<span class="c1"># data class</span>
+<div class="viewcode-block" id="AzEl"><a class="viewcode-back" href="../../_apidoc/azely.azel.html#azely.AzEl">[docs]</a><span class="k">class</span> <span class="nc">AzEl</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Subclass of pandas DataFrame with special properties for Azely.&quot;&quot;&quot;</span>
+
+    <span class="c1">#: allowed custom attributes</span>
+    <span class="n">_metadata</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;site&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">alt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Alias of ``dataframe.el``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">el</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">in_lst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert time index to LST.&quot;&quot;&quot;</span>
+        <span class="n">td</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">td_lst</span> <span class="o">=</span> <span class="n">td</span> <span class="o">*</span> <span class="n">SOLAR_TO_SIDEREAL</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">td_lst</span> <span class="o">=</span> <span class="n">td_lst</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="s2">&quot;1D&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lst</span>
+
+        <span class="n">lst</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">td_lst</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LST&quot;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">in_utc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert time index to UTC.&quot;&quot;&quot;</span>
+        <span class="n">utc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">utc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_constructor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor of class.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AzEl</span></div>
+
+
+<span class="c1"># main functions</span>
+<div class="viewcode-block" id="compute"><a class="viewcode-back" href="../../_apidoc/azely.azel.html#azely.compute">[docs]</a><span class="nd">@set_defaults</span><span class="p">(</span><span class="n">AZELY_CONFIG</span><span class="p">,</span> <span class="s2">&quot;compute&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span>
+    <span class="nb">object</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">site</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">HERE</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TODAY</span><span class="p">,</span>
+    <span class="n">view</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">frame</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FRAME</span><span class="p">,</span>
+    <span class="n">freq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FREQ</span><span class="p">,</span>
+    <span class="n">dayfirst</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DAYFIRST</span><span class="p">,</span>
+    <span class="n">yearfirst</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">YEARFIRST</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">TIMEOUT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AzEl</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Compute az/el and local sidereal time (LST) of an astronomical object.</span>
+
+<span class="sd">    The ``compute`` function (1) gets object, location, and time information, (2) computes</span>
+<span class="sd">    az/el and LST (local sidereal time), and (3) returns them as a pandas DataFrame.</span>
+
+<span class="sd">    Object information can be obtained either online (CDS) or offline (an user-defined</span>
+<span class="sd">    TOML file) by query (e.g., ``&#39;NGC1068&#39;`` or ``&#39;Sun&#39;``). Location information can be</span>
+<span class="sd">    obtained either online (IP address or OpenStreetMap) or offline (an user-defined</span>
+<span class="sd">    TOML file) by query (e.g., ``&#39;Tokyo&#39;`` or ``&#39;ALMA AOS&#39;``). Time information can be</span>
+<span class="sd">    computed from either formatted (e.g., ``&#39;2020-01-01&#39;``) and natural language-like</span>
+<span class="sd">    query (e.g., ``&#39;Jan 1st 2020&#39;``). See docstrings of ``get_[object|location|time]``</span>
+<span class="sd">    functions for more detailed query options.</span>
+
+<span class="sd">    There are two different locations to be used for a computation:</span>
+<span class="sd">    (1) ``site``: location where az/el of an object is computed.</span>
+<span class="sd">    (2) ``view``: location where time information (timezone) is considered.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        object: Query string for object information (e.g., ``&#39;Sun&#39;`` or ``&#39;NGC1068&#39;``).</span>
+<span class="sd">            Spacify ``&#39;user:NGC1068&#39;`` if users want to get information from ``user.toml``.</span>
+<span class="sd">        site: Query string for location information at a site (e.g., ``&#39;Tokyo&#39;``).</span>
+<span class="sd">            Spacify ``&#39;user:Tokyo&#39;`` if users want to get information from ``user.toml``.</span>
+<span class="sd">        time: Query string for time information at a view (e.g., ``&#39;2020-01-01&#39;``).</span>
+<span class="sd">        view: Query string for timezone information at the view. (e.g., ``&#39;Asia/Tokyo&#39;``,</span>
+<span class="sd">            ``&#39;UTC&#39;``, or ``Tokyo``). By default (``&#39;&#39;``),  timezone at the site is used.</span>
+<span class="sd">        frame: (object option) Name of equatorial coordinates used in astropy&#39;s SkyCoord.</span>
+<span class="sd">        freq: (time option) Frequency of time samples as the same format of pandas offset</span>
+<span class="sd">            aliases (e.g., ``&#39;1D&#39;`` -&gt; 1 day, ``&#39;3H&#39;`` -&gt; 3 hours, ``&#39;10T&#39;`` -&gt; 10 minutes).</span>
+<span class="sd">        dayfirst: (time option) Whether to interpret the first value in an ambiguous</span>
+<span class="sd">            3-integer date (e.g., ``&#39;01-02-03&#39;``) as the day. If True, for example,</span>
+<span class="sd">            ``&#39;01-02-03&#39;`` is treated as Feb. 1st 2003.</span>
+<span class="sd">        yearfirst: (time option) Whether to interpret the first value in an ambiguous</span>
+<span class="sd">            3-integer date (e.g., ``&#39;01-02-03&#39;``) as the year. If True, for example,</span>
+<span class="sd">            ``&#39;01-02-03&#39;`` is treated as Feb. 3rd 2001. If ``dayfirst`` is also ``True``,</span>
+<span class="sd">            then it will be Mar. 2nd 2001.</span>
+<span class="sd">        timeout: (common option) Query timeout expressed in units of seconds.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Computed DataFrame of object&#39;s az/el and LST at given site and view.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AzelyError: Raised if one of mid-level APIs fails to get any information.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        To compute daily az/el of NGC1068 at ALMA AOS::</span>
+
+<span class="sd">            &gt;&gt;&gt; df = azely.compute(&#39;NGC1068&#39;, &#39;ALMA AOS&#39;, &#39;2020-02-01&#39;)</span>
+
+<span class="sd">        To compute the same object and location but view from Japan::</span>
+
+<span class="sd">            &gt;&gt;&gt; df = azely.compute(&#39;NGC1068&#39;, &#39;ALMA AOS&#39;, &#39;2020-02-01&#39;, view=&#39;Tokyo&#39;)</span>
+
+<span class="sd">        To compute az/el of Sun at noon during an year at Tokyo::</span>
+
+<span class="sd">            &gt;&gt;&gt; df = azely.compute(&#39;Sun&#39;, &#39;Tokyo&#39;, &#39;1/1 12:00 to 12/31 12:00&#39;, freq=&#39;1D&#39;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">object_</span> <span class="o">=</span> <span class="n">get_object</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
+    <span class="n">site_</span> <span class="o">=</span> <span class="n">get_location</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
+    <span class="n">time_</span> <span class="o">=</span> <span class="n">get_time</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">view</span> <span class="ow">or</span> <span class="n">site</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">dayfirst</span><span class="p">,</span> <span class="n">yearfirst</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_compute</span><span class="p">(</span><span class="n">object_</span><span class="p">,</span> <span class="n">site_</span><span class="p">,</span> <span class="n">time_</span><span class="p">)</span></div>
+
+
+<span class="c1"># helper functions</span>
+<span class="k">def</span> <span class="nf">_compute</span><span class="p">(</span><span class="nb">object</span><span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="n">Location</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="n">Time</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AzEl</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Compute az/el and local sidereal time (LST) of an astronomical object.</span>
+
+<span class="sd">    Similar to ``compute`` function, but this function receives instances</span>
+<span class="sd">    of ``Object``, ``Location``, and ``Time`` classes as arguments.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        object: Object information.</span>
+<span class="sd">        site: Site location information.</span>
+<span class="sd">        time: Time information.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Computed DataFrame of object&#39;s az/el and LST at given site and view.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AzelyError: Raised if one of mid-level APIs fails to get any information.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">obstime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">to_obstime</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">to_earthloc</span><span class="p">())</span>
+    <span class="n">skycoord</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">to_skycoord</span><span class="p">(</span><span class="n">obstime</span><span class="p">)</span>
+
+    <span class="n">az</span> <span class="o">=</span> <span class="n">skycoord</span><span class="o">.</span><span class="n">altaz</span><span class="o">.</span><span class="n">az</span>
+    <span class="n">el</span> <span class="o">=</span> <span class="n">skycoord</span><span class="o">.</span><span class="n">altaz</span><span class="o">.</span><span class="n">alt</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="n">to_timedelta</span><span class="p">(</span><span class="n">obstime</span><span class="o">.</span><span class="n">sidereal_time</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;hr&quot;</span><span class="p">)</span>
+
+    <span class="n">azel</span> <span class="o">=</span> <span class="n">AzEl</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">az</span><span class="o">=</span><span class="n">az</span><span class="p">,</span> <span class="n">el</span><span class="o">=</span><span class="n">el</span><span class="p">,</span> <span class="n">lst</span><span class="o">=</span><span class="n">lst</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">to_index</span><span class="p">())</span>
+    <span class="n">azel</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="nb">object</span>
+    <span class="n">azel</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="n">site</span>
+    <span class="k">return</span> <span class="n">azel</span>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    <script src="../../_static/js/index.js"></script>
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2017-2020, Akio Taniguchi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

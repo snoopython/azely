@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>azely.object module &#8212; Azely 0.6.0 documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="azely.time module" href="azely.time.html" />
+    <link rel="prev" title="azely.location module" href="azely.location.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <a class="navbar-brand" href="../index.html">
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="azely.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/astropenguin/azely/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/astropengu_in/" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+        
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="module-azely.object">
+<span id="azely-object-module"></span><h1>azely.object module<a class="headerlink" href="#module-azely.object" title="Permalink to this headline">¶</a></h1>
+<p>Azely’s object module (mid-level API).</p>
+<p>This module mainly provides <code class="docutils literal notranslate"><span class="pre">Object</span></code> class for information of an astronomical
+object (object information, hereafter) and <code class="docutils literal notranslate"><span class="pre">get_object</span></code> function to search for
+object information as an instance of <code class="docutils literal notranslate"><span class="pre">Object</span></code> class.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Object</span></code> class is defiend as
+<code class="docutils literal notranslate"><span class="pre">Object(name:</span> <span class="pre">str,</span> <span class="pre">frame:</span> <span class="pre">str,</span> <span class="pre">longitude:</span> <span class="pre">str,</span> <span class="pre">latitude:</span> <span class="pre">str)</span></code>,
+where frame is a name of equatorial coordinates (e.g., icrs) and lon/lat are values
+of coordinates which must be written with units like 02h42m40.771s/-00d00m47.84s.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">get_object</span></code> function acquires object information from:
+(1) Data from CDS (by default). Internet connection is required.
+(2) User-defined object information written in a TOML file.</p>
+<p>In the case of (1), obtained object information is cached in a special
+TOML file (<code class="docutils literal notranslate"><span class="pre">~/.config/azely/objects.toml</span></code>) for an offline use.</p>
+<p>In the case of (2), users can define object information in a TOML file
+(e.g., <code class="docutils literal notranslate"><span class="pre">user.toml</span></code>) which should be put in a current directory or in the
+Azely’s config directory (<code class="docutils literal notranslate"><span class="pre">~/.config/azely</span></code>). Object information must be
+defined as a table in the TOML file like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># user.toml</span>
+
+<span class="p">[</span><span class="n">GC</span><span class="p">]</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Galactic center&quot;</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="s2">&quot;galactic&quot;</span>
+<span class="n">longitude</span> <span class="o">=</span> <span class="s2">&quot;0deg&quot;</span>
+<span class="n">latitude</span> <span class="o">=</span> <span class="s2">&quot;0deg&quot;</span>
+</pre></div>
+</div>
+<p>Then object information can be obtained by <code class="docutils literal notranslate"><span class="pre">get_object(&lt;query&gt;)</span></code>.
+Use <code class="docutils literal notranslate"><span class="pre">get_object(&lt;name&gt;:&lt;query&gt;)</span></code> for user-defined object information,
+where <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> must be the name of a TOML file without suffix or the full
+path of it. If it does not exist in a current directory, the function
+will try to find it in the Azely’s config directory (<code class="docutils literal notranslate"><span class="pre">~/.config/azely</span></code>).</p>
+<p class="rubric">Examples</p>
+<p>To get object info from CDS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;NGC1068&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To get object info from <code class="docutils literal notranslate"><span class="pre">user.toml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;user:GC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt id="azely.object.Object">
+<em class="property">class </em><code class="sig-prename descclassname">azely.object.</code><code class="sig-name descname">Object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">frame</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">longitude</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">latitude</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/azely/object.html#Object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.object.Object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Azely’s object information class.</p>
+<dl class="py attribute">
+<dt id="azely.object.Object.frame">
+<code class="sig-name descname">frame</code><em class="property">: str</em><a class="headerlink" href="#azely.object.Object.frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of equatorial coordinates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="azely.object.Object.is_solar">
+<code class="sig-name descname">is_solar</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/azely/object.html#Object.is_solar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.object.Object.is_solar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if it is an solar object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="azely.object.Object.latitude">
+<code class="sig-name descname">latitude</code><em class="property">: str</em><a class="headerlink" href="#azely.object.Object.latitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Latitude (e.g., dec or b) with units.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="azely.object.Object.longitude">
+<code class="sig-name descname">longitude</code><em class="property">: str</em><a class="headerlink" href="#azely.object.Object.longitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Longitude (e.g., ra or l) with units.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="azely.object.Object.name">
+<code class="sig-name descname">name</code><em class="property">: str</em><a class="headerlink" href="#azely.object.Object.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object’s name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="azely.object.Object.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><a class="reference internal" href="../_modules/azely/object.html#Object.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.object.Object.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert it to a Python’s dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="azely.object.Object.to_skycoord">
+<code class="sig-name descname">to_skycoord</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obstime</span><span class="p">:</span> <span class="n">astropy.time.core.Time</span></em><span class="sig-paren">)</span> &#x2192; astropy.coordinates.sky_coordinate.SkyCoord<a class="reference internal" href="../_modules/azely/object.html#Object.to_skycoord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.object.Object.to_skycoord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert it to an astropy’s skycoord with given obstime.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="azely.object.get_object">
+<code class="sig-prename descclassname">azely.object.</code><code class="sig-name descname">get_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">frame</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'icrs'</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#azely.object.Object" title="azely.object.Object">azely.object.Object</a><a class="reference internal" href="../_modules/azely/object.html#get_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.object.get_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get object information by various ways.</p>
+<p>This function acquires object information by the following two ways:
+(1) Data from CDS (by default). Internet connection is required.
+(2) User-defined object information written in a TOML file.</p>
+<p>In the case of (1), obtained object information is cached in a special
+TOML file (<code class="docutils literal notranslate"><span class="pre">~/.config/azely/objects.toml</span></code>) for an offline use.</p>
+<p>In the case of (2), users can define object information in a TOML file
+(e.g., <code class="docutils literal notranslate"><span class="pre">user.toml</span></code>) which should be put in a current directory or in the
+Azely’s config directory (<code class="docutils literal notranslate"><span class="pre">~/.config/azely</span></code>).</p>
+<p>Then object information can be obtained by <code class="docutils literal notranslate"><span class="pre">get_object(&lt;query&gt;)</span></code>.
+Use <code class="docutils literal notranslate"><span class="pre">get_object(&lt;name&gt;:&lt;query&gt;)</span></code> for user-defined object information,
+where <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> must be the name of a TOML file without suffix or the full
+path of it. If it does not exist in a current directory, the function
+will try to find it in the Azely’s config directory (<code class="docutils literal notranslate"><span class="pre">~/.config/azely</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> – Query string (e.g., <code class="docutils literal notranslate"><span class="pre">'NGC1068'</span></code> or <code class="docutils literal notranslate"><span class="pre">'user:GC'</span></code>).</p></li>
+<li><p><strong>frame</strong> – Name of equatorial coordinates used in astropy’s SkyCoord.</p></li>
+<li><p><strong>timeout</strong> – Query timeout expressed in units of seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Object information as an instance of <code class="docutils literal notranslate"><span class="pre">Object</span></code> class.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="azely.utils.html#azely.utils.AzelyError" title="azely.utils.AzelyError"><strong>AzelyError</strong></a> – Raised if the function fails to get object information.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>As <code class="docutils literal notranslate"><span class="pre">object</span></code> is the Python’s builtin base class, it might be better
+to use an alternative variable name (e.g., <code class="docutils literal notranslate"><span class="pre">object_</span></code> or <code class="docutils literal notranslate"><span class="pre">obj</span></code>)
+for object information which this function returns.</p>
+<p class="rubric">Examples</p>
+<p>To get object info from CDS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;NGC1068&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To get object info from <code class="docutils literal notranslate"><span class="pre">user.toml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;user:GC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="azely.location.html" title="previous page">azely.location module</a>
+    <a class='right-next' id="next-link" href="azely.time.html" title="next page">azely.time module</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2017-2020, Akio Taniguchi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

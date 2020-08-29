@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>azely.time &#8212; Azely 0.6.0 documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <a class="navbar-brand" href="../../index.html">
+      <img src="../../_static/logo.svg" class="logo" alt="logo">
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../_apidoc/azely.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/astropenguin/azely/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/astropengu_in/" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for azely.time</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Azely&#39;s time module (mid-level API).</span>
+
+<span class="sd">This module mainly provides ``Time`` class for date and time information at a</span>
+<span class="sd">given location (time information, hereafter) and ``get_time`` function to obtain</span>
+<span class="sd">time information as an instance of ``Time`` class.</span>
+
+<span class="sd">The ``Time`` class is subclass of ``pandas.DatetimeIndex`` and expressed like:</span>
+<span class="sd">``Time([&#39;2020-02-18&#39;], dtype=&#39;datetime64[ns, Asia/Tokyo]&#39;, name=&#39;Asia/Tokyo&#39;, freq=&#39;D&#39;)``.</span>
+
+<span class="sd">The ``get_time`` function computes time information in several cases:</span>
+<span class="sd">(1) Current time (e.g., [2020-01-01 22:32:58+09:00]).</span>
+<span class="sd">(2) Time range today (e.g., [2020-01-01 00:00, ..., 2020-01-02 00:00])</span>
+<span class="sd">(3) Time range of given date and length (by query)</span>
+
+<span class="sd">In the cases of (1) and (2), special queries, ``&#39;now&#39;`` and ``&#39;today&#39;``, must be</span>
+<span class="sd">specified, respectively. The ``view`` option specifies a timezone where</span>
+<span class="sd">time (range) is considered (timezone or location name can be accepted).</span>
+
+<span class="sd">In the case of (3), formatted query (e.g., ``&#39;2020-01-01 to 2020-01-05&#39;``)</span>
+<span class="sd">or natural language-like query can be used (e.g., ``&#39;Jan. 1st to Jan. 5th&#39;``),</span>
+<span class="sd">where start and end must be separated by ``&#39;to&#39;``. The ``view`` option also works.</span>
+
+<span class="sd">Examples:</span>
+<span class="sd">    To get current time in Tokyo::</span>
+
+<span class="sd">        &gt;&gt;&gt; time = azely.time.get_time(&#39;now&#39;, view=&quot;Tokyo&quot;)</span>
+
+<span class="sd">    To get current time in UTC::</span>
+
+<span class="sd">        &gt;&gt;&gt; time = azely.time.get_time(&#39;now&#39;, view=&quot;UTC&quot;)</span>
+
+<span class="sd">    To get time range today at ALMA AOS::</span>
+
+<span class="sd">        &gt;&gt;&gt; time = azely.time.get_time(&#39;today&#39;, view=&quot;ALMA AOS&quot;)</span>
+
+<span class="sd">    To get time range from Jan. 1 to Jan. 5 in 2020 in UTC::</span>
+
+<span class="sd">        &gt;&gt;&gt; time = azely.time.get_time(&#39;2020-01-01 to 2020-01-05&#39;, view=&#39;UTC&#39;)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;get_time&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># standard library</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">tzinfo</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+
+<span class="c1"># dependent packages</span>
+<span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">EarthLocation</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span> <span class="k">as</span> <span class="n">ObsTime</span>
+<span class="kn">from</span> <span class="nn">dateutil.parser</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DatetimeIndex</span><span class="p">,</span> <span class="n">date_range</span>
+<span class="kn">from</span> <span class="nn">pytz</span> <span class="kn">import</span> <span class="n">UnknownTimeZoneError</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">AzelyError</span>
+<span class="kn">from</span> <span class="nn">.location</span> <span class="kn">import</span> <span class="n">get_location</span>
+
+<span class="c1"># constants</span>
+<span class="kn">from</span> <span class="nn">.consts</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DAYFIRST</span><span class="p">,</span>
+    <span class="n">HERE</span><span class="p">,</span>
+    <span class="n">NOW</span><span class="p">,</span>
+    <span class="n">TODAY</span><span class="p">,</span>
+    <span class="n">FREQ</span><span class="p">,</span>
+    <span class="n">TIMEOUT</span><span class="p">,</span>
+    <span class="n">YEARFIRST</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">DELIMITER</span> <span class="o">=</span> <span class="s2">&quot;to&quot;</span>
+
+
+<span class="c1"># data classes</span>
+<div class="viewcode-block" id="Time"><a class="viewcode-back" href="../../_apidoc/azely.time.html#azely.Time">[docs]</a><span class="k">class</span> <span class="nc">Time</span><span class="p">(</span><span class="n">DatetimeIndex</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Azely&#39;s time information class.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Time.to_obstime"><a class="viewcode-back" href="../../_apidoc/azely.time.html#azely.Time.to_obstime">[docs]</a>    <span class="k">def</span> <span class="nf">to_obstime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">earthloc</span><span class="p">:</span> <span class="n">EarthLocation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ObsTime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert it to an astropy&#39;s time (obstime).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ObsTime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">location</span><span class="o">=</span><span class="n">earthloc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Time.to_index"><a class="viewcode-back" href="../../_apidoc/azely.time.html#azely.Time.to_index">[docs]</a>    <span class="k">def</span> <span class="nf">to_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatetimeIndex</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert it to a pandas DatetimeIndex.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">DatetimeIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_constructor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor of class.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Time</span></div>
+
+
+<span class="c1"># main functions</span>
+<div class="viewcode-block" id="get_time"><a class="viewcode-back" href="../../_apidoc/azely.time.html#azely.get_time">[docs]</a><span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TODAY</span><span class="p">,</span>
+    <span class="n">view</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">HERE</span><span class="p">,</span>
+    <span class="n">freq</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FREQ</span><span class="p">,</span>
+    <span class="n">dayfirst</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">DAYFIRST</span><span class="p">,</span>
+    <span class="n">yearfirst</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">YEARFIRST</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">TIMEOUT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Time</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get time information by various ways.</span>
+
+<span class="sd">    The ``get_time`` function computes time information in several cases:</span>
+<span class="sd">    (1) Current time (e.g., [2020-01-01 22:32:58+09:00]).</span>
+<span class="sd">    (2) Time range of today (e.g., [2020-01-01 00:00, ..., 2020-01-02 00:00])</span>
+<span class="sd">    (3) Time range of given date and length (by query)</span>
+
+<span class="sd">    In the cases of (1) and (2), special queries, ``&#39;now&#39;`` and ``&#39;today&#39;``, must be</span>
+<span class="sd">    specified, respectively. The ``view`` option specifies a timezone where</span>
+<span class="sd">    time (range) is considered (timezone or location name can be accepted).</span>
+
+<span class="sd">    In the case of (3), formatted query (e.g., ``&#39;2020-01-01 to 2020-01-05&#39;``)</span>
+<span class="sd">    or natural language-like query can be used (e.g., ``&#39;Jan. 1st to Jan. 5th&#39;``),</span>
+<span class="sd">    where start and end must be separated by ``&#39;to&#39;``. The ``view`` option also works.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        query: Query string (e.g., ``&#39;2020-01-01 to 2020-01-05&#39;``).</span>
+<span class="sd">            If ``&#39;today&#39;`` (by default) or ``&#39;now&#39;`` is specified,</span>
+<span class="sd">            then time range of today or current time is computed, respectively.</span>
+<span class="sd">        view: Name of timezone (e.g., ``&#39;Asia/Tokyo&#39;`` or ``&#39;UTC&#39;``) or location</span>
+<span class="sd">            with which timezone can be identified (e.g., ``&#39;Tokyo&#39;``).</span>
+<span class="sd">        freq: Frequency of time samples as the same format of pandas offset aliases</span>
+<span class="sd">            (e.g., ``&#39;1D&#39;`` -&gt; 1 day, ``&#39;3H&#39;`` -&gt; 3 hours, ``&#39;10T&#39;`` -&gt; 10 minutes).</span>
+<span class="sd">        dayfirst: Whether to interpret the first value in an ambiguous 3-integer</span>
+<span class="sd">            date (e.g., ``&#39;01-02-03&#39;``) as the day. If True, for example,</span>
+<span class="sd">            ``&#39;01-02-03&#39;`` is treated as Feb. 1st 2003.</span>
+<span class="sd">        yearfirst: Whether to interpret the first value in an ambiguous 3-integer</span>
+<span class="sd">            date (e.g., ``&#39;01-02-03&#39;``) as the year. If True, for example,</span>
+<span class="sd">            ``&#39;01-02-03&#39;`` is treated as Feb. 3rd 2001. If ``dayfirst`` is also ``True``,</span>
+<span class="sd">            then it will be Mar. 2nd 2001.</span>
+<span class="sd">        timeout: Query timeout expressed in units of seconds (see notes).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Time information as an instance of ``Time`` class.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AzelyError: Raised if the function fails to parse query or timezone.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        If location is specified as ``view``, then ``azely.location.get_location``</span>
+<span class="sd">        function is used inside the function, which requires internet connection</span>
+<span class="sd">        if the location is queried for the first time.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        To get current time in Tokyo::</span>
+
+<span class="sd">            &gt;&gt;&gt; time = azely.time.get_time(&#39;now&#39;, view=&quot;Tokyo&quot;)</span>
+
+<span class="sd">        To get current time in UTC::</span>
+
+<span class="sd">            &gt;&gt;&gt; time = azely.time.get_time(&#39;now&#39;, view=&quot;UTC&quot;)</span>
+
+<span class="sd">        To get time range of today at ALMA AOS::</span>
+
+<span class="sd">            &gt;&gt;&gt; time = azely.time.get_time(&#39;today&#39;, view=&quot;ALMA AOS&quot;)</span>
+
+<span class="sd">        To get time range from Jan. 1 to Jan. 5 in 2020 in UTC::</span>
+
+<span class="sd">            &gt;&gt;&gt; time = azely.time.get_time(&#39;2020-01-01 to 2020-01-05&#39;, view=&#39;UTC&#39;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tzinfo</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">UnknownTimeZoneError</span><span class="p">:</span>
+        <span class="n">tzinfo</span> <span class="o">=</span> <span class="n">get_location</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span><span class="o">.</span><span class="n">tzinfo</span>
+
+    <span class="k">if</span> <span class="n">query</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">NOW</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">get_time_now</span><span class="p">(</span><span class="n">tzinfo</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">query</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">TODAY</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">get_time_today</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">tzinfo</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">parse</span><span class="p">,</span> <span class="n">dayfirst</span><span class="o">=</span><span class="n">dayfirst</span><span class="p">,</span> <span class="n">yearfirst</span><span class="o">=</span><span class="n">yearfirst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">get_time_period</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">tzinfo</span><span class="p">,</span> <span class="n">parser</span><span class="p">))</span></div>
+
+
+<span class="c1"># helper functions</span>
+<span class="k">def</span> <span class="nf">get_time_now</span><span class="p">(</span><span class="n">tzinfo</span><span class="p">:</span> <span class="n">tzinfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatetimeIndex</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get current time at given timezone.&quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tzinfo</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tzinfo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">tzinfo</span><span class="o">.</span><span class="n">zone</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_time_today</span><span class="p">(</span><span class="n">freq</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tzinfo</span><span class="p">:</span> <span class="n">tzinfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatetimeIndex</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get time range of today at given timezone.&quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tzinfo</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tzinfo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">tzinfo</span><span class="o">.</span><span class="n">zone</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_time_period</span><span class="p">(</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tzinfo</span><span class="p">:</span> <span class="n">tzinfo</span><span class="p">,</span> <span class="n">parser</span><span class="p">:</span> <span class="n">Callable</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatetimeIndex</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get time range of given date and length at given timezone.&quot;&quot;&quot;</span>
+    <span class="n">period</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">DELIMITER</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">period</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">parser</span><span class="p">(</span><span class="n">period</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">period</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AzelyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to parse: </span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">tzinfo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">tzinfo</span><span class="o">.</span><span class="n">zone</span><span class="p">)</span>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    <script src="../../_static/js/index.js"></script>
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2017-2020, Akio Taniguchi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

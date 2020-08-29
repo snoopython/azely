@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>azely.utils module &#8212; Azely 0.6.0 documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="azely.time module" href="azely.time.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <a class="navbar-brand" href="../index.html">
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="azely.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/astropenguin/azely/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/astropengu_in/" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+        
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="module-azely.utils">
+<span id="azely-utils-module"></span><h1>azely.utils module<a class="headerlink" href="#module-azely.utils" title="Permalink to this headline">¶</a></h1>
+<p>Azely’s utils module (low-level utilities).</p>
+<p>This module provides series of utility related to exception and I/O:
+(1) <code class="docutils literal notranslate"><span class="pre">AzelyError</span></code> class as Azely’s base exception class
+(2) <code class="docutils literal notranslate"><span class="pre">open_toml</span></code> function to open (and update if any) a TOML file
+(3) <code class="docutils literal notranslate"><span class="pre">cache_to</span></code> decorator which caches returns of a function to a TOML file
+(4) <code class="docutils literal notranslate"><span class="pre">set_defaults</span></code> decorator which replaces default values of a function</p>
+<dl class="py exception">
+<dt id="azely.utils.AzelyError">
+<em class="property">exception </em><code class="sig-prename descclassname">azely.utils.</code><code class="sig-name descname">AzelyError</code><a class="reference internal" href="../_modules/azely/utils.html#AzelyError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.utils.AzelyError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Azely’s base exception class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="azely.utils.cache_to">
+<em class="property">class </em><code class="sig-prename descclassname">azely.utils.</code><code class="sig-name descname">cache_to</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pathlib.Path<span class="p">, </span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'query'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/azely/utils.html#cache_to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.utils.cache_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Decorator which cache returns of a function to a TOML file.</p>
+<p>Suppose there is a function which takes a long time to get
+a result and it is decorated by this function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@azely</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">cache_to</span><span class="p">(</span><span class="s1">&#39;cache.toml&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="c1"># simulates a long-time processing</span>
+<span class="gp">... </span>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">query</span>
+</pre></div>
+</div>
+<p>Then the following function calls:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="s1">&#39;aaa&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="s1">&#39;bbb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="s1">&#39;ccc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>would take ~30 seconds to finish. But at the same time,
+the results are cached to <code class="docutils literal notranslate"><span class="pre">cache.toml</span></code> like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cache.toml</span>
+
+<span class="n">aaa</span> <span class="o">=</span> <span class="s2">&quot;aaa&quot;</span>
+<span class="n">bbb</span> <span class="o">=</span> <span class="s2">&quot;bbb&quot;</span>
+<span class="n">ccc</span> <span class="o">=</span> <span class="s2">&quot;ccc&quot;</span>
+</pre></div>
+</div>
+<p>Then the second calls would take much shorter time because
+cached values are simply read and returned by the decorator.
+If a query argument is given with ‘!’ at the end of it
+(e.g., <code class="docutils literal notranslate"><span class="pre">'aaa!'</span></code>), cached values are forcibly updated by an
+immediate call of the original function.</p>
+<dl class="py attribute">
+<dt id="azely.utils.cache_to.pattern">
+<code class="sig-name descname">pattern</code><em class="property"> = re.compile('^\\s*([\\w\\s]*\\w)\\s*!$')</em><a class="headerlink" href="#azely.utils.cache_to.pattern" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="azely.utils.open_toml">
+<code class="sig-prename descclassname">azely.utils.</code><code class="sig-name descname">open_toml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pathlib.Path<span class="p">, </span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">alt_dir</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pathlib.Path<span class="p">, </span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/azely/utils.html#open_toml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.utils.open_toml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a TOML file and get contents as a dictionary.</p>
+<p>If this function is used in a <code class="docutils literal notranslate"><span class="pre">with</span></code> context management,
+any updates to the dictionary is also reflected on the TOML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – Path or filename (without suffix) of a TOML file.
+If the latter is specified and if it does not exist in a current
+directory, then the function tries to find it in <code class="docutils literal notranslate"><span class="pre">alt_dir</span></code>.</p></li>
+<li><p><strong>alt_dir</strong> – Path of a directory where the function tries to find
+the TOML file if it does not exist in a current directory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary equivalent to the contents of the TOML file.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#azely.utils.AzelyError" title="azely.utils.AzelyError"><strong>AzelyError</strong></a> – Raised if the TOML file is not found anywhere.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>To simply open a TOML file (for example, <code class="docutils literal notranslate"><span class="pre">./user.toml</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dic</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">open_toml</span><span class="p">(</span><span class="s1">&#39;user.toml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dic</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">open_toml</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To open and update a TOML file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">azely</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">open_toml</span><span class="p">(</span><span class="s1">&#39;user.toml&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dic</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;new_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="azely.utils.set_defaults">
+<em class="property">class </em><code class="sig-prename descclassname">azely.utils.</code><code class="sig-name descname">set_defaults</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>pathlib.Path<span class="p">, </span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/azely/utils.html#set_defaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.utils.set_defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Decorator which replaces default values of a function.</p>
+<p>The alternative defualt values are read from a TOML file.
+Suppose there is a function with some parameters
+and it is decorated by this function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@azely</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="s1">&#39;defaults.toml&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>Suppose the content of <code class="docutils literal notranslate"><span class="pre">defaults.toml</span></code> is like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># defaults.toml</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Then the following function calls results in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># -&gt; 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># -&gt; 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span><span class="p">()</span> <span class="c1"># -&gt; 3</span>
+</pre></div>
+</div>
+<p>This is because now the function is equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="azely.utils.set_defaults.update">
+<em class="property">static </em><code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sig</span><span class="p">:</span> <span class="n">inspect.Signature</span></em>, <em class="sig-param"><span class="n">defaults</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; inspect.Signature<a class="reference internal" href="../_modules/azely/utils.html#set_defaults.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#azely.utils.set_defaults.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="azely.time.html" title="previous page">azely.time module</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2017-2020, Akio Taniguchi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+azely.consts module
+===================
+
+.. automodule:: azely.consts
+   :members:
+   :undoc-members:
+   :show-inheritance:

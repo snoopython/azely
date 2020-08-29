@@ -1,0 +1,7 @@
+azely.object module
+===================
+
+.. automodule:: azely.object
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Azely &#8212; Azely 0.6.0 documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <a class="navbar-brand" href="index.html">
+      <img src="_static/logo.svg" class="logo" alt="logo">
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="index.html">Home</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="_apidoc/azely.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/astropenguin/azely/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://twitter.com/astropengu_in/" target="_blank" rel="noopener">
+              <span><i class="fab fa-twitter-square"></i></span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#tl-dr" class="nav-link">TL;DR</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#features" class="nav-link">Features</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#requirements" class="nav-link">Requirements</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#installation" class="nav-link">Installation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#basic-usage" class="nav-link">Basic usage</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#compute-function" class="nav-link">Compute function</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#output-dataframe" class="nav-link">Output DataFrame</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#example" class="nav-link">Example</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#advanced-usage" class="nav-link">Advanced usage</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#plotting-in-local-sidereal-time" class="nav-link">Plotting in local sidereal time</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#user-defined-information" class="nav-link">User-defined information</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#cached-information" class="nav-link">Cached information</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#customizing-defualt-values" class="nav-link">Customizing defualt values</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#references" class="nav-link">References</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="azely">
+<h1>Azely<a class="headerlink" href="#azely" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://pypi.org/pypi/azely/"><img alt="PyPI" src="https://img.shields.io/pypi/v/azely.svg?label=PyPI&amp;style=flat-square" /></a> <a class="reference external" href="https://pypi.org/pypi/azely/"><img alt="Python" src="https://img.shields.io/pypi/pyversions/azely.svg?label=Python&amp;color=yellow&amp;style=flat-square" /></a> <a class="reference external" href="https://github.com/astropenguin/azely/actions"><img alt="Test" src="https://img.shields.io/github/workflow/status/astropenguin/azely/Test?logo=github&amp;label=Test&amp;style=flat-square" /></a> <a class="reference external" href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg?label=License&amp;style=flat-square" /></a> <a class="reference external" href="https://doi.org/10.5281/zenodo.3680060"><img alt="DOI" src="https://img.shields.io/badge/DOI-10.5281/zenodo.3680060-blue?style=flat-square" /></a></p>
+<p>Computation and plotting of azimuth and elevation for astronomical objects</p>
+<div class="section" id="tl-dr">
+<h2>TL;DR<a class="headerlink" href="#tl-dr" title="Permalink to this headline">¶</a></h2>
+<p>Azely (pronounced as “as-elie”) is a Python package for computation and plotting of horizontal coordinates (azimuth and elevation; az/el, hereafter) of astronomical objects at given location and time. While computation and plotting are realized by <a class="reference external" href="https://astropy.org">astropy</a> and <a class="reference external" href="https://matplotlib.org">matplotlib</a>, what Azely provides is high-level API to use them easily. In fact Azely offers one-liner to compute and plot, for example, one-day elevation of the Sun in Tokyo:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">azely</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s1">&#39;Sun&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">el</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="figure align-default" id="id1">
+<img alt="one-liner.svg" src="https://raw.githubusercontent.com/astropenguin/azely/v0.6.0/docs/_static/one-liner.svg" /><p class="caption"><span class="caption-text">one-liner.svg</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>High-level API:</strong> Azely provides a simple yet powerful <code class="docutils literal notranslate"><span class="pre">compute()</span></code> function. Users can complete most of operation with it (e.g., information acquisition and computation).</p></li>
+<li><p><strong>Handy output:</strong> Azely’s output (from <code class="docutils literal notranslate"><span class="pre">compute()</span></code>) is <a class="reference external" href="https://pandas.pydata.org">pandas</a> DataFrame, a de facto standard data structure of Python. Users can convert it to other formats like CSV and plot it by <a class="reference external" href="https://matplotlib.org">matplotlib</a> using builtin methods.</p></li>
+<li><p><strong>Web information acquisition:</strong> Azely can automatically acquire object and location information (i.e., longitude and latitude) from online services (e.g., catalogues or maps). Obtained information is cached in a local <a class="reference external" href="https://github.com/toml-lang/toml">TOML</a> file for an offline use.</p></li>
+<li><p><strong>User-defined information:</strong> Azely also offers to use user-defined object and location information written in a <a class="reference external" href="https://github.com/toml-lang/toml">TOML</a> file.</p></li>
+</ul>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Python:</strong> 3.6, 3.7, or 3.8 (tested by author)</p></li>
+<li><p><strong>Dependencies:</strong> See <a class="reference external" href="https://github.com/astropenguin/azely/blob/v0.6.0/pyproject.toml">pyproject.toml</a></p></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ pip install azely
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<h2>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>This section describes basic az/el computation using <code class="docutils literal notranslate"><span class="pre">compute()</span></code> function.</p>
+<div class="section" id="compute-function">
+<h3>Compute function<a class="headerlink" href="#compute-function" title="Permalink to this headline">¶</a></h3>
+<p>Azely’s <code class="docutils literal notranslate"><span class="pre">compute()</span></code> function receives the following parameters and returns <a class="reference external" href="https://pandas.pydata.org">pandas</a> DataFrame (<code class="docutils literal notranslate"><span class="pre">df</span></code>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">azely</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This means that <code class="docutils literal notranslate"><span class="pre">azely</span></code> will <code class="docutils literal notranslate"><span class="pre">compute</span></code> az/el of <code class="docutils literal notranslate"><span class="pre">object</span></code> observed from <code class="docutils literal notranslate"><span class="pre">site</span></code> at (on) <code class="docutils literal notranslate"><span class="pre">time</span></code> in <code class="docutils literal notranslate"><span class="pre">view</span></code>. For example, the following code will compute az/el of Sun observed from ALMA AOS on Jan. 1st 2020 in Tokyo.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s1">&#39;Sun&#39;</span><span class="p">,</span> <span class="s1">&#39;ALMA AOS&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Acceptable formats of each parameter and examples are as follows.</p>
+<table class="table">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 17%" />
+<col style="width: 39%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Acceptable format</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">object</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;obj.</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p>name of object to be searched</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'Sun'</span></code>, <code class="docutils literal notranslate"><span class="pre">'NGC1068'</span></code></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;toml&gt;:&lt;obj.</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p>user-defined object to be loaded (see below)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'user.toml:M42'</span></code>, <code class="docutils literal notranslate"><span class="pre">'user:M42'</span></code> (also valid)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">site</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'here'</span></code> (default)</p></td>
+<td><p>current location (guess by IP address)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;loc.</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p>name of location to be searched</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'ALMA</span> <span class="pre">AOS'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Tokyo'</span></code></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;toml&gt;:&lt;loc.</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p>user-defined location to be loaded (see below)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'user.toml:ASTE'</span></code>, <code class="docutils literal notranslate"><span class="pre">'user:ASTE'</span></code> (also valid)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'today'</span></code> (default)</p></td>
+<td><p>get one-day time range of today</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'now'</span></code></p></td>
+<td><p>get current time</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;time&gt;</span></code></p></td>
+<td><p>start time of one-day time range</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'2020-01-01'</span></code>, <code class="docutils literal notranslate"><span class="pre">'1/1</span> <span class="pre">12:00'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Jan.</span> <span class="pre">1st'</span></code></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;time&gt;</span> <span class="pre">to</span> <span class="pre">&lt;time&gt;</span></code></p></td>
+<td><p>start and end of time range</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'1/1</span> <span class="pre">to</span> <span class="pre">1/3'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Jan.</span> <span class="pre">1st</span> <span class="pre">to</span> <span class="pre">Jan.</span> <span class="pre">3rd'</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">view</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">''</span></code> (default)</p></td>
+<td><p>use timezone of <code class="docutils literal notranslate"><span class="pre">site</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;tz</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p>name of timezone database</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'Asia/Tokyo'</span></code>, <code class="docutils literal notranslate"><span class="pre">'UTC'</span></code></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;loc.</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p>name of location from which timezone is identified</p></td>
+<td><p>same as <code class="docutils literal notranslate"><span class="pre">site</span></code>’s examples</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;toml&gt;:&lt;loc.</span> <span class="pre">name&gt;</span></code></p></td>
+<td><p>user-defined location from which timezone is identified</p></td>
+<td><p>same as <code class="docutils literal notranslate"><span class="pre">site</span></code>’s examples</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output-dataframe">
+<h3>Output DataFrame<a class="headerlink" href="#output-dataframe" title="Permalink to this headline">¶</a></h3>
+<p>The output DataFrame contains az/el expressed in units of degrees and local sidereal time (LST) at <code class="docutils literal notranslate"><span class="pre">site</span></code> indexed by time in <code class="docutils literal notranslate"><span class="pre">view</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                                  <span class="n">az</span>         <span class="n">el</span>             <span class="n">lst</span>
+<span class="n">Asia</span><span class="o">/</span><span class="n">Tokyo</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">94.820323</span>  <span class="mf">68.416756</span> <span class="mi">17</span><span class="p">:</span><span class="mi">07</span><span class="p">:</span><span class="mf">59.405556</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">00</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">94.333979</span>  <span class="mf">70.709575</span> <span class="mi">17</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">01.048298</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">00</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">93.856123</span>  <span class="mf">73.003864</span> <span class="mi">17</span><span class="p">:</span><span class="mi">28</span><span class="p">:</span><span class="mf">02.691044</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">00</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">93.388695</span>  <span class="mf">75.299436</span> <span class="mi">17</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="mf">04.333786</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">00</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">92.935403</span>  <span class="mf">77.596109</span> <span class="mi">17</span><span class="p">:</span><span class="mi">48</span><span class="p">:</span><span class="mf">05.976529</span>
+<span class="o">...</span>                              <span class="o">...</span>        <span class="o">...</span>             <span class="o">...</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">23</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">96.711830</span>  <span class="mf">59.146249</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span><span class="p">:</span><span class="mf">49.389513</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">23</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">96.185941</span>  <span class="mf">61.431823</span> <span class="mi">16</span><span class="p">:</span><span class="mi">41</span><span class="p">:</span><span class="mf">51.032256</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">23</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">95.664855</span>  <span class="mf">63.719668</span> <span class="mi">16</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mf">52.674998</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">23</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">95.147951</span>  <span class="mf">66.009577</span> <span class="mi">17</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mf">54.317740</span>
+<span class="mi">2020</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">02</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">09</span><span class="p">:</span><span class="mi">00</span>  <span class="mf">94.634561</span>  <span class="mf">68.301349</span> <span class="mi">17</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mf">55.960483</span>
+
+<span class="p">[</span><span class="mi">145</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">3</span> <span class="n">columns</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>Here is a sample script which will plot one-day elevation of the Sun and candidates of black hole shadow observations at ALMA AOS on Apr. 11th 2017 in UTC.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">azely</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-whitegrid&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">site</span> <span class="o">=</span> <span class="s1">&#39;ALMA AOS&#39;</span>
+<span class="n">time</span> <span class="o">=</span> <span class="s1">&#39;Apr. 11th 2017&#39;</span>
+<span class="n">view</span> <span class="o">=</span> <span class="s1">&#39;UTC&#39;</span>
+
+<span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Sun&#39;</span><span class="p">,</span> <span class="s1">&#39;Sgr A*&#39;</span><span class="p">,</span> <span class="s1">&#39;M87&#39;</span><span class="p">,</span> <span class="s1">&#39;M104&#39;</span><span class="p">,</span> <span class="s1">&#39;Cen A&#39;</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">view</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">el</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">obj</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;site: </span><span class="si">{</span><span class="n">site</span><span class="si">}</span><span class="s1">, view: </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s1">, time: </span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Elevation (deg)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="figure align-default" id="id2">
+<img alt="multiple-objects.svg" src="https://raw.githubusercontent.com/astropenguin/azely/v0.6.0/docs/_static/multiple-objects.svg" /><p class="caption"><span class="caption-text">multiple-objects.svg</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-usage">
+<h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h2>
+<p>This section describes advanced usage of Azely by special DataFrame accessor and local <a class="reference external" href="https://github.com/toml-lang/toml">TOML</a> files. Note that Azely will create a config directory, <code class="docutils literal notranslate"><span class="pre">$XDG_CONFIG_HOME/azely</span></code> (if the environment variable exists) or <code class="docutils literal notranslate"><span class="pre">~/.config/azely</span></code>, after importing <code class="docutils literal notranslate"><span class="pre">azely</span></code> for the first time. <a class="reference external" href="https://github.com/toml-lang/toml">TOML</a> files for configuration (<code class="docutils literal notranslate"><span class="pre">config.toml</span></code>) and cached information (<code class="docutils literal notranslate"><span class="pre">objects.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">locations.toml</span></code>) will be automatically created
+in it.</p>
+<div class="section" id="plotting-in-local-sidereal-time">
+<h3>Plotting in local sidereal time<a class="headerlink" href="#plotting-in-local-sidereal-time" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">compute()</span></code> function does not accept local sidereal time (LST) as <code class="docutils literal notranslate"><span class="pre">view</span></code> (i.e., <code class="docutils literal notranslate"><span class="pre">view='LST'</span></code>) because LST has no information on year and date. Instead an output DataFrame has <code class="docutils literal notranslate"><span class="pre">in_lst</span></code> property which provides az/el with a LST index converted from the original time index. For example, the following code will plot elevation of an object in LST:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">in_lst</span><span class="o">.</span><span class="n">el</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In order to use LST values as an index of DataFrame, LST has pseudo dates which start from <code class="docutils literal notranslate"><span class="pre">1970-01-01</span></code>. Please ignore them or hide them by using <a class="reference external" href="https://matplotlib.org">matplotlib</a> DateFormatter when you plot the result. Here is a sample script which has JST time axis at the bottom and LST axis at the top of a figure, respectively.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">twin</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s1">&#39;Sun&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">el</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">in_lst</span><span class="o">.</span><span class="n">el</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">twin</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Elevation (deg)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%H:%M&#39;</span><span class="p">)</span>
+<span class="n">twin</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-default" id="id3">
+<img alt="lst-axis.svg" src="https://raw.githubusercontent.com/astropenguin/azely/v0.6.0/docs/_static/lst-axis.svg" /><p class="caption"><span class="caption-text">lst-axis.svg</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="user-defined-information">
+<h3>User-defined information<a class="headerlink" href="#user-defined-information" title="Permalink to this headline">¶</a></h3>
+<p>Azely offers to use user-defined information from a <a class="reference external" href="https://github.com/toml-lang/toml">TOML</a> file. Here is a sample TOML file (e.g., <code class="docutils literal notranslate"><span class="pre">user.toml</span></code>) which has custom object and location informaiton.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># user.toml</span>
+
+<span class="p">[</span><span class="n">ASTE</span><span class="p">]</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ASTE Telescope&quot;</span>
+<span class="n">longitude</span> <span class="o">=</span> <span class="s2">&quot;-67.70317915&quot;</span>
+<span class="n">latitude</span> <span class="o">=</span> <span class="s2">&quot;-22.97163575&quot;</span>
+<span class="n">altitude</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+
+<span class="p">[</span><span class="n">GC</span><span class="p">]</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Galactic center&quot;</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="s2">&quot;galactic&quot;</span>
+<span class="n">longitude</span> <span class="o">=</span> <span class="s2">&quot;0deg&quot;</span>
+<span class="n">latitude</span> <span class="o">=</span> <span class="s2">&quot;0deg&quot;</span>
+</pre></div>
+</div>
+<p>If it is located in a current directory or in the Azely’s config directory, users can use the information like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s1">&#39;user:GC&#39;</span><span class="p">,</span> <span class="s1">&#39;user:ASTE&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cached-information">
+<h3>Cached information<a class="headerlink" href="#cached-information" title="Permalink to this headline">¶</a></h3>
+<p>Object and location information obtained from online services is cached to <a class="reference external" href="https://github.com/toml-lang/toml">TOML</a> files (<code class="docutils literal notranslate"><span class="pre">objects.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">locations.toml</span></code>) in the Azely’s config directory with the same format as user-defined files. If a query argument is given with <code class="docutils literal notranslate"><span class="pre">'!'</span></code> at the end of it, then the cached values are forcibly updated by a new acquisition. This is useful, for example, when users want to update a current location:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">azely</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="s1">&#39;Sun&#39;</span><span class="p">,</span> <span class="s1">&#39;here!&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-01-01&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="customizing-defualt-values">
+<h3>Customizing defualt values<a class="headerlink" href="#customizing-defualt-values" title="Permalink to this headline">¶</a></h3>
+<p>Users can modify default values of the <code class="docutils literal notranslate"><span class="pre">compute()</span></code> function by editing the Azely’s config <a class="reference external" href="https://github.com/toml-lang/toml">TOML</a> file (<code class="docutils literal notranslate"><span class="pre">config.toml</span></code>) in the Azely’s config directory like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># config.toml</span>
+
+<span class="p">[</span><span class="n">compute</span><span class="p">]</span>
+<span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;Tokyo&quot;</span>
+<span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;now&quot;</span>
+</pre></div>
+</div>
+<p>Then <code class="docutils literal notranslate"><span class="pre">compute('Sun')</span></code> becomes equivalent to <code class="docutils literal notranslate"><span class="pre">compute('Sun',</span> <span class="pre">'Tokyo',</span> <span class="pre">'now')</span></code>.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://astropy.org">astropy</a></p></li>
+<li><p><a class="reference external" href="https://matplotlib.org">matplotlib</a></p></li>
+<li><p><a class="reference external" href="https://pandas.pydata.org">pandas</a></p></li>
+<li><p><a class="reference external" href="https://github.com/toml-lang/toml">TOML</a></p></li>
+</ul>
+<!-- references --></div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2017-2020, Akio Taniguchi.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

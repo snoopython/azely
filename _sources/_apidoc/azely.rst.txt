@@ -1,0 +1,23 @@
+azely package
+=============
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   azely.azel
+   azely.consts
+   azely.location
+   azely.object
+   azely.time
+   azely.utils
+
+Module contents
+---------------
+
+.. automodule:: azely
+   :members:
+   :undoc-members:
+   :show-inheritance:
